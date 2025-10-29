@@ -1,13 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Producto
 from .forms import ProductoForm
+from django.contrib.auth.decorators import login_required
 
-# 🟩 Listar
+
+@login_required
+
 def lista_productos(request):
     productos = Producto.objects.all()  # type: ignore
     return render(request, 'inventario_app/lista_productos.html', {'productos': productos})
+@login_required
 
-# 🟦 Crear
 def crear_producto(request):
     if request.method == 'POST':
         form = ProductoForm(request.POST)
@@ -17,8 +20,8 @@ def crear_producto(request):
     else:
         form = ProductoForm() 
     return render(request, 'inventario_app/crear_producto.html', {'form': form})
+@login_required
 
-# 🟨 Editar
 def editar_producto(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
     if request.method == 'POST':
@@ -30,12 +33,12 @@ def editar_producto(request, pk):
         form = ProductoForm(instance=producto)
     return render(request, 'inventario_app/form_productos.html', {'form': form, 'accion': 'Editar'})
 
-# 🟧 Detalle (Leer)
+@login_required
 def detalle_producto(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
-    return render(request, 'inventario_app/detalle_producto.html', {'producto': producto})
+    return render(request, 'inventario_app/detalles_producto.html', {'producto': producto})
 
-# 🟥 Eliminar
+@login_required
 def eliminar_producto(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
     if request.method == 'POST':

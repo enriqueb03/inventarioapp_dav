@@ -5,8 +5,8 @@ from django.urls import reverse
 class Categoria(models.Model):
     nombre = models.CharField(max_length=100)
 
-    def _str_(self):
-        return self.nombre
+    def __str__(self):
+        return str(self.nombre)
 
 
 class Producto(models.Model):
