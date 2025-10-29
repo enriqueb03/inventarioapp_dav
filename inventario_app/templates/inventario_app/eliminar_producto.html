@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Eliminar Producto</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-10">
+  <div class="max-w-lg mx-auto bg-white p-6 rounded shadow text-center">
+    <h1 class="text-2xl font-bold mb-6 text-red-600">Eliminar Producto</h1>
+    <p class="mb-4">¿Seguro que deseas eliminar el producto <strong>{{ producto.nombre }}</strong>?</p>
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Sí, eliminar</button>
+      <a href="{% url 'listar_productos' %}" class="ml-4 text-gray-600 hover:underline">Cancelar</a>
+    </form>
+  </div>
+</body>
+</html>
