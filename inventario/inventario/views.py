@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .producto import Producto 
+from .Producto import Producto 
 from .categoria import Categoria 
 from inventario_app.forms import ProductoForm
 
@@ -9,7 +9,7 @@ def listar_productos(request):
 
 def crear_producto(request):
     if request.method == 'POST':
-        form = ProductoForm(request.POST)
+        form = ProductoForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('lista_productos')
@@ -20,7 +20,7 @@ def crear_producto(request):
 def editar_producto(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
     if request.method == 'POST':
-        form = ProductoForm(request.POST, instance=producto)
+        form = ProductoForm(request.POST, request.FILES, instance=producto)
         if form.is_valid():
             form.save()
             return redirect('lista_productos')

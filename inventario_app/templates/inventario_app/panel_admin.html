@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administración</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-10">
+
+    <div class="max-w-6xl mx-auto bg-white p-6 rounded-2xl shadow-lg">
+
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold text-blue-700">Panel de Administración</h1>
+            <a href="{% url 'signup' %}" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">
+                ➕ Nuevo Usuario
+            </a>
+        </div>
+
+        <div class="overflow-x-auto shadow-md rounded-lg">
+            <table class="w-full text-sm text-left text-gray-700">
+                <thead class="text-xs text-gray-100 uppercase bg-blue-600">
+                    <tr>
+                        <th scope="col" class="py-3 px-6">Usuario</th>
+                        <th scope="col" class="py-3 px-6">Email</th>
+                        <th scope="col" class="py-3 px-6">Rol (Grupo)</th>
+                        <th scope="col" class="py-3 px-6">Estado</th>
+                        <th scope="col" class="py-3 px-6">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for usuario in usuarios %}
+                    <tr class="bg-white border-b hover:bg-gray-50">
+                        <td class="py-4 px-6 font-medium text-gray-900">
+                            {{ usuario.username }}
+                            {% if usuario.is_superuser %}(Super)
+                            {% elif usuario.is_staff %}(Staff)
+                            {% endif %}
+                        </td>
+                        <td class="py-4 px-6">{{ usuario.email|default:"Sin email" }}</td>
+                        <td class="py-4 px-6">
+                            {% for grupo in usuario.groups.all %}
+                                <span class="bg-gray-200 text-gray-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                    {{ grupo.name }}
+                                </span>
+                            {% empty %}
+                                <span class="text-gray-400">Sin rol</span>
+                            {% endfor %}
+                        </td>
+                        <td class="py-4 px-6">
+                            {% if usuario.is_active %}
+                                <span class="text-green-500 font-bold">Activo</span>
+                            {% else %}
+                                <span class="text-red-500 font-bold">Inactivo</span>
+                            {% endif %}
+                        </td>
+                        <td class="py-4 px-6 flex gap-2">
+                            <a href="#" class="bg-yellow-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-yellow-600">
+                                Editar Rol
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="mt-6">
+             <a href="{% url 'lista_productos' %}" class="font-medium text-blue-600 hover:text-blue-500">
+                &larr; Volver al Inventario
+            </a>
+        </div>
+
+    </div>
+</body>
+</html>

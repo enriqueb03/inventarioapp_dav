@@ -1,59 +1,91 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <title>Inventario</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-gray-100 p-10">
   <div class="max-w-4xl mx-auto bg-white p-6 rounded-2xl shadow-lg">
 
-        {% if user.is_authenticated %}
+    {% if user.is_authenticated %}
     <div class="flex justify-between items-center mb-4">
-        <span class="text-gray-700">Bienvenido, <strong>{{ user.username }}</strong></span>
-
-        <form method="post" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 text-sm">
-                Cerrar Sesión
-            </button>
-        </form>
-        </div>
-{% endif %}
-  <div class="w-full md:max-w-4xl mx-auto bg-white p-6 rounded-2xl shadow-lg">
-    <h1 class="text-3xl font-bold mb-6 text-center text-blue-700">Inventario de Productos</h1>
-    <div class="flex justify-end mb-4">
-      <a href="{% url 'crear_producto' %}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">➕ Nuevo Producto</a>
+      <span class="text-gray-700">Bienvenido, <strong> {{ user.username }} </strong>
+      {% if user.is_superuser %}
+            <a href="{% url 'panel_admin' %}" class="ml-4 text-sm text-blue-600 hover:underline">(Panel de Admin)</a>
+            {% endif %}
+      </span>
+        
+      <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 text-sm">
+          Cerrar Sesión
+        </button>
+      </form>
     </div>
+    {% endif %}
+    <div class="w-full md:max-w-4xl mx-auto bg-white p-6 rounded-2xl shadow-lg">
+      <h1 class="text-3xl font-bold mb-6 text-center text-blue-700">Inventario de Productos</h1>
+      <div class="flex justify-end mb-4">
+        <a href="{% url 'crear_producto' %}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">➕
+          Nuevo Producto</a>
+      </div>
+      <div class="overflow-x-auto shadow-md rounded-lg">
+        <table class=" w-full text-sm text-left min-w-full border border-gray-300 rounded-lg">
+          <thead class="bg-blue-200">
+            <tr>
+              <th class="py-2 px-4">Nombre</th>
+              <th class="py-2 px-4">Precio_compra</th>
+              <th class="py-2 px-4">Precio_venta</th>
+              <th class="py-2 px-4">Cantidad</th>
+              <th class="py-2 px-4">Acciones</th>
+              <th scope="col" class="py-3 px-6"> Imagen </th>
+              
+            <tr class="bg-white border-b ...">
 
-    <table class="min-w-full border border-gray-300 rounded-lg">
-      <thead class="bg-blue-200">
-        <tr>
-          <th class="py-2 px-4">Nombre</th>
-          <th class="py-2 px-4">Precio</th>
-          <th class="py-2 px-4">Cantidad</th>
-          <th class="py-2 px-4">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for producto in productos %}
-          <tr class="border-t">
-            <td class="py-2 px-4">{{ producto.nombre }}</td>
-            <td class="py-2 px-4">${{ producto.precio }}</td>
-            <td class="py-2 px-4">{{ producto.cantidad }}</td>
-            <td class="py-2 px-4 flex gap-2">
-              <a href="{% url 'detalle_producto' producto.id %}" class="bg-indigo-500 text-white px-2 py-1 rounded hover:bg-indigo-600">👁️ Ver</a>
-              <a href="{% url 'editar_producto' producto.id %}" class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600">✏️ Editar</a>
-              <a href="{% url 'eliminar_producto' producto.id %}" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">🗑️ Eliminar</a>
-            </td>
-          </tr>
-        {% empty %}
-          <tr><td colspan="4" class="text-center py-4">No hay productos registrados.</td></tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-  
+              <td class="py-4 px-6">
+                {% if producto.imagen %}
+                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}"
+                  class="h-10 w-10 object-cover rounded-md">
+                {% else %}
+                <span class="text-gray-400 text-xs">Sin foto</span>
+                {% endif %}
+              </td>
+
+              <td scope="row" class="py-4 px-6 font-medium ...">
+                {{ producto.nombre }}
+              </td>
+            </tr>
+            </tr>
+          </thead>
+          <tbody>
+            {% for producto in productos %}
+            <tr class="border-t">
+              <td class="py-2 px-4">{{ producto.nombre }}</td>
+              <td class="py-2 px-4">${{ producto.precio_compra }}</td>
+              <td class="py-2 px-4">${{ producto.precio_venta }}</td>
+              <td class="py-2 px-4">{{ producto.cantidad }}</td>
+              <td class="py-2 px-4 flex gap-2">
+                <a href="{% url 'detalle_producto' producto.id %}"
+                  class="bg-indigo-500 text-white px-2 py-1 rounded hover:bg-indigo-600">👁️ Ver</a>
+                <a href="{% url 'editar_producto' producto.id %}"
+                  class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600">✏️ Editar</a>
+                <a href="{% url 'eliminar_producto' producto.id %}"
+                  class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">🗑️ Eliminar</a>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="4" class="text-center py-4">No hay productos registrados.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
 </body>
+
 </html>

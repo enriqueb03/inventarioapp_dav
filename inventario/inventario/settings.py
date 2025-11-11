@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-
+from django.conf import settings
+from django.conf.urls.static import static
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -28,16 +30,17 @@ DEBUG = False
 ALLOWED_HOSTS = ["*"]
 
 
-# Application definition
+
 
 INSTALLED_APPS = [
+    'inventario_app',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "inventario_app"
+    
 ]
 
 MIDDLEWARE = [
@@ -126,3 +129,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/' 
 # Hacia dónde redirigir si se necesita iniciar sesión
 LOGIN_URL = '/cuentas/login/'
+# Configuración para manejar archivos (imagenes)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# Imprime los emails en la consola en lugar de enviarlos
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
