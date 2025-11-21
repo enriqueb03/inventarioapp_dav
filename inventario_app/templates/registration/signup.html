@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Nuevo Usuario</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <div class="min-h-screen flex items-center justify-center py-12 px-4">
+        <div class="max-w-md w-full space-y-8 bg-white p-10 rounded-2xl shadow-xl">
+            
+            <div>
+                <svg class="mx-auto h-12 w-auto text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.5 21c-2.305 0-4.47-.612-6.375-1.666z" />
+                </svg>
+                <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
+                    Crear Nueva Cuenta
+                </h2>
+            </div>
+            
+            <form class="mt-8 space-y-6" method="post">
+                {% csrf_token %}
+                
+                {% for error in form.non_field_errors %}
+                    <div class="p-4 bg-red-50 rounded-md">
+                        <p class="text-sm font-medium text-red-700">{{ error }}</p>
+                    </div>
+                {% endfor %}
+
+                <div class="space-y-4">
+                    {{ form.as_p }}
+                </div>
+
+                <div>
+                    <button type="submit" 
+                            class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Crear Usuario
+                    </button>
+                </div>
+            </form>
+
+            <p class="mt-4 text-center text-sm text-gray-600">
+                <a href="{% url 'panel_admin' %}" class="font-medium text-blue-600 hover:text-blue-500">
+                    &larr; Volver al Panel
+                </a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

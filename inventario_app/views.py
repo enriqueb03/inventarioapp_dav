@@ -83,15 +83,15 @@ def detalle_producto(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
     return render(request, 'inventario_app/detalles_producto.html', {'producto': producto})
 
+@login_required
+@user_passes_test(es_admin)
 def vista_registro(request):
     if request.method == 'POST':
         form = RegistroUsuarioForm(request.POST)
         if form.is_valid():
             user = form.save()
             
-            login(request, user)
-            
-            return redirect('lista_productos')
+            return redirect('panel_admin')
     else:
         form = RegistroUsuarioForm()
         
