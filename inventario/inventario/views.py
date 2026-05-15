@@ -3,6 +3,8 @@ from .Producto import Producto
 from .categoria import Categoria 
 from inventario_app.forms import ProductoForm
 
+
+
 def listar_productos(request):
     productos = Producto.objects.select_related('categoria').all()
     return render(request, 'inventario/lista_productos.html', {'productos': productos})

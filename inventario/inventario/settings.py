@@ -25,11 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-sfbq__7k&25765f6o6x4gt+&o5i(!7^8$(ipgie31q*jc#qy(t'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-
-
 
 
 INSTALLED_APPS = [
@@ -40,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+    'django.contrib.humanize',
+
 ]
 
 MIDDLEWARE = [
@@ -107,7 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-co'
 
 TIME_ZONE = 'UTC'
 
@@ -125,8 +124,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-# Hacia dónde redirigir después de un login exitoso
-LOGIN_REDIRECT_URL = '/' 
 # Hacia dónde redirigir si se necesita iniciar sesión
 LOGIN_URL = '/cuentas/login/'
 # Configuración para manejar archivos (imagenes)
@@ -134,3 +131,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Imprime los emails en la consola en lugar de enviarlos
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# A dónde ir después de iniciar sesión
+LOGIN_REDIRECT_URL = 'lista_productos'
+
+# A dónde ir después de cerrar sesión
+LOGOUT_REDIRECT_URL = 'login'

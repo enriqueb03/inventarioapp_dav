@@ -1,11 +1,13 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Panel de Administración</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-gray-100 p-10">
 
     <div class="max-w-6xl mx-auto bg-white p-6 rounded-2xl shadow-lg">
@@ -13,7 +15,7 @@
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-3xl font-bold text-blue-700">Panel de Administración</h1>
             <a href="{% url 'signup' %}" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">
-                ➕ Nuevo Usuario
+                Nuevo Usuario
             </a>
         </div>
 
@@ -40,23 +42,25 @@
                         <td class="py-4 px-6">{{ usuario.email|default:"Sin email" }}</td>
                         <td class="py-4 px-6">
                             {% for grupo in usuario.groups.all %}
-                                <span class="bg-gray-200 text-gray-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                    {{ grupo.name }}
-                                </span>
+                            <span class="bg-gray-200 text-gray-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                {{ grupo.name }}
+                            </span>
                             {% empty %}
-                                <span class="text-gray-400">Sin rol</span>
+                            <span class="text-gray-400">Sin rol</span>
                             {% endfor %}
                         </td>
                         <td class="py-4 px-6">
                             {% if usuario.is_active %}
-                                <span class="text-green-500 font-bold">Activo</span>
+                            <span class="text-green-500 font-bold">Activo</span>
                             {% else %}
-                                <span class="text-red-500 font-bold">Inactivo</span>
+                            <span class="text-red-500 font-bold">Inactivo</span>
                             {% endif %}
                         </td>
                         <td class="py-4 px-6 flex gap-2">
-                            <a href="#" class="bg-yellow-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-yellow-600">
-                                Editar Rol
+                            <a href="{% url 'eliminar_usuario' usuario.id %}"
+                                onclick="return confirm('¿Estás completamente seguro de que deseas eliminar a {{ usuario.username }}? Esta acción no se puede deshacer.');"
+                                class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded text-sm transition duration-300">
+                                Eliminar
                             </a>
                         </td>
                     </tr>
@@ -64,13 +68,14 @@
                 </tbody>
             </table>
         </div>
-        
+
         <div class="mt-6">
-             <a href="{% url 'lista_productos' %}" class="font-medium text-blue-600 hover:text-blue-500">
+            <a href="{% url 'lista_productos' %}" class="font-medium text-blue-600 hover:text-blue-500">
                 &larr; Volver al Inventario
             </a>
         </div>
 
     </div>
 </body>
+
 </html>

@@ -1,0 +1,92 @@
+{% load static humanize%}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Kardex De Inventario</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 p-10">
+
+    <div class="max-w-4xl mx-auto px4">
+        <h1 class="text-3xl font-bold text-blue-700 mb-8">Kardex De Inventario</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+            <div class="bg-white rounded-2xl shadow-md p-6 border-l-4 border-blue-500">
+                <h2 class="text-gray-500 text-sm uppercase font-medium mb-2">Total de Productos en Sistema</h2>
+                <p class="text-4xl font-extrabold text-gray-800">{{ total_productos }}</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-md p-6 border-l-4 border-green-500">
+                <h2 class="text-gray-500 text-sm uppercase font-bold mb-2">Valor Total del Inventario (Costo)</h2>
+                <p class="text-4xl font-extrabold text-gray-800">$ {{ valor_inventario|intcomma }}</p>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden">
+            <div class="p-6 bg-blue-50 border-b">
+                <h2 class="text-xl font-bold text-gray-800">Últimos Movimientos Registrados</h2>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-100 text-gray-600 text-sm uppercase">
+                            <th class="p-4 border-b">Fecha</th>
+                            <th class="p-4 border-b">Producto</th>
+                            <th class="p-4 border-b">Movimiento</th>
+                            <th class="p-4 border-b">Cantidad</th>
+                            <th class="p-4 border-b">Precio</th>
+                            <th class="p-4 border-b">Detalle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for mov in movimientos %}
+                        <tr class="hover:bg-gray-50 border-b">
+                            <td class="p-4 text-gray-600 text-sm">{{ mov.fecha|date:"d/m/Y h:i A" }}</td>
+                            <td class="p-4 font-bold text-gray-800">{{ mov.producto.nombre }}</td>
+                            <td class="p-4">
+                                {% if mov.tipo == 'ENTRADA' %}
+                                <span
+                                    class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold">ENTRADA</span>
+                                {% else %}
+                                <span
+                                    class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold">SALIDA</span>
+                                {% endif %}
+                            </td>
+
+                            <td class="p-4 font-semibold text-gray-700">{{ mov.cantidad }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                ${{mov.subtotal_movimiento|intcomma }}</td>
+                            <td class="p-4 text-gray-500 text-sm">{{ mov.descripcion|default:"-" }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="p-8 text-center text-gray-400">
+                                Aún no hay registros de entradas o salidas de productos.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="mt-10">
+            <a href="javascript:history.back()"
+                class="inline-flex items-center gap-2 px-4 py-2 border-2 border-blue-600 text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-colors duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+                        clip-rule="evenodd" />
+                </svg>
+                Volver
+            </a>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

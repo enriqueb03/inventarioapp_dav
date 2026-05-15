@@ -17,7 +17,7 @@ Including another URLconf
 from django.conf.urls.static import static
 from django.urls import path
 from inventario_app import views
-from django.conf import settings         
+from django.conf import settings
 
 
 urlpatterns = [
@@ -28,4 +28,9 @@ urlpatterns = [
     path('eliminar/<int:pk>/', views.eliminar_producto, name='eliminar_producto'),
     path('registrar/', views.vista_registro, name='signup'),
     path('panel/', views.panel_admin, name='panel_admin'),
+    # path('panel/nuevo-usuario/', views.crear_usuario, name='crear_usuario'),
+    # path('panel/editar-rol/<int:usuario_id>/', views.editar_rol, name= 'editar_rol'),
+    path('eliminar_usuario/<int:usuario_id>/',
+         views.eliminar_usuario, name='eliminar_usuario'),
+    path('dashboard/', views.dashboard_inventario, name='dashboard_inventario'),
 ]
